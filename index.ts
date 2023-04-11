@@ -46,25 +46,16 @@ export async function runEveryMinute({ cache, storage, global, config }) {
     }
   }
   if (config.export === "Yes") {
-    /* const userRes = await posthog.api.get("/api/projects/@current/persons", {
-      host: global.posthogUrl,
-      personalApiKey: global.posthogApiKey,
-      projectApiKey: global.posthogProjectKey,
-    }); */
-    console.log("global", JSON.stringify(global));
     const userRes = await posthog.api.get("/api/projects/@current/persons", {
-      host: "https://posthog.formbricks.com",
+      host: config.posthogHost,
     });
     const userResponse = await userRes.json();
 
     const users: FormbricksUser[] = [];
 
-    console.log("userResponse", userResponse);
-
     if (userResponse.results && userResponse.results.length > 0) {
       for (const loadedUser of userResponse["results"]) {
         for (const distinctId of loadedUser["distinct_ids"]) {
-          console.log("pushing user", distinctId);
           users.push({
             userId: distinctId,
             attributes: loadedUser["properties"],
@@ -72,7 +63,7 @@ export async function runEveryMinute({ cache, storage, global, config }) {
         }
       }
     }
-    console.log("users", users);
+
     await fetch(
       `${config.formbricksHost}/api/v1/environments/${config.environmentId}/posthog/import`,
       {

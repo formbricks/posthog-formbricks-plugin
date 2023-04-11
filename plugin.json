@@ -24,6 +24,13 @@
       "required": true
     },
     {
+      "key": "posthogHost",
+      "name": "Posthog Host",
+      "type": "string",
+      "default": "https://app.posthog.com",
+      "required": true
+    },
+    {
       "key": "import",
       "name": "Enable Import",
       "type": "choice",
