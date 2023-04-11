@@ -4,10 +4,14 @@ interface FormbricksUser {
 }
 
 export async function setupPlugin({ storage, config, global }) {
-  if (!config.formbricksHost || !config.environmentId || config.apiKey) {
-    throw new Error(
-      "Please set the 'formbricksHost', 'environmentId' & 'apiKey' config values"
-    );
+  if (!config.formbricksHost) {
+    throw new Error("Please set the 'formbricksHost' config value");
+  }
+  if (!config.environmentId) {
+    throw new Error("Please set the 'environmentId' config value");
+  }
+  if (!config.apiKey) {
+    throw new Error("Please set the 'apiKey' config values");
   }
 
   const resetStorage = config.resetStorage === "Yes";
