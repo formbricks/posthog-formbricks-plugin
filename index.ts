@@ -13,6 +13,11 @@ export async function setupPlugin({ storage, config, global }) {
   if (!config.apiKey) {
     throw new Error("Please set the 'apiKey' config values");
   }
+  if (config.export === "Yes" && !config.posthogHost) {
+    throw new Error(
+      "Please set the 'posthogHost' config value when export is enabled"
+    );
+  }
 
   const resetStorage = config.resetStorage === "Yes";
 

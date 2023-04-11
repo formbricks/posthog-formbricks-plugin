@@ -28,6 +28,7 @@
       "name": "Posthog Host",
       "type": "string",
       "default": "https://app.posthog.com",
+      "hint": "Used only for export to Formbricks",
       "required": true
     },
     {
