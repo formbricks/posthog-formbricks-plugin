@@ -21,7 +21,7 @@ export async function setupPlugin({ storage, config, global }) {
   }
 }
 
-export async function runEveryMinute({ cache, storage, global, config }) {
+export async function runEveryHour({ cache, storage, global, config }) {
   let lastSyncedAt = await storage.get("formbricks-lastSyncedAt", null);
   if (config.import === "Yes") {
     const response = await fetch(
@@ -55,10 +55,21 @@ export async function runEveryMinute({ cache, storage, global, config }) {
 
     if (userResponse.results && userResponse.results.length > 0) {
       for (const loadedUser of userResponse["results"]) {
+        // Filter out $ properties
+        const customAttributes = (
+          obj: Record<string, any>
+        ): Record<string, any> => {
+          return Object.fromEntries(
+            Object.entries(loadedUser["properties"]).filter(
+              ([key]) => !key.startsWith("$")
+            )
+          );
+        };
+        // Add each distinct_id as a user
         for (const distinctId of loadedUser["distinct_ids"]) {
           users.push({
             userId: distinctId,
-            attributes: loadedUser["properties"],
+            attributes: customAttributes,
           });
         }
       }
