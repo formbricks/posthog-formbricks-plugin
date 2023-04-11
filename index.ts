@@ -26,7 +26,7 @@ export async function runEveryMinute({ cache, storage, global, config }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-Api-Key": config.apiKey,
+          "X-API-Key": config.apiKey,
         },
         body: JSON.stringify({ lastSyncedAt }),
       }
@@ -67,7 +67,7 @@ export async function runEveryMinute({ cache, storage, global, config }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-Api-Key": config.apiKey,
+          "X-API-Key": config.apiKey,
         },
         body: JSON.stringify({ users }),
       }

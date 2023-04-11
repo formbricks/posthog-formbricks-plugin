@@ -10,13 +10,13 @@
     },
     {
       "key": "environmentId",
-      "name": "Environment ID",
+      "name": "Formbricks Environment ID",
       "type": "string",
       "hint": "Can be found in the Setup Checklist in the Formbricks Settings",
       "required": true
     },
     {
-      "key": "formbricksApiKey",
+      "key": "apiKey",
       "name": "Formbricks API Key",
       "type": "string",
       "secret": true,
