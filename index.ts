@@ -5,17 +5,15 @@ interface FormbricksUser {
 
 export async function setupPlugin({ storage, config, global }) {
   if (!config.formbricksHost || !config.environmentId || config.apiKey) {
-    throw new Error("Please set the 'formbricksHost', 'environmentId' & 'apiKey' config values");
+    throw new Error(
+      "Please set the 'formbricksHost', 'environmentId' & 'apiKey' config values"
+    );
   }
 
   const resetStorage = config.resetStorage === "Yes";
 
   if (resetStorage) {
     await storage.del("formbricks-lastSyncedAt");
-  }
-
-  if (!global.projectId) {
-    throw new Error(`Could not get ID for Github project: ${config.user}/${config.repo}`);
   }
 }
 
@@ -63,14 +61,17 @@ export async function runEveryHour({ cache, storage, global, config }) {
         }
       }
     }
-    await fetch(`${config.formbricksHost}/api/v1/environemnts/${config.environmentId}/posthog/import`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Api-Key": config.apiKey,
-      },
-      body: JSON.stringify({ users }),
-    });
+    await fetch(
+      `${config.formbricksHost}/api/v1/environemnts/${config.environmentId}/posthog/import`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Api-Key": config.apiKey,
+        },
+        body: JSON.stringify({ users }),
+      }
+    );
   }
   await storage.set("formbricks-lastSyncedAt", new Date().toISOString());
 }
