@@ -46,11 +46,12 @@ export async function runEveryMinute({ cache, storage, global, config }) {
     }
   }
   if (config.export === "Yes") {
-    const userRes = await posthog.api.get("/api/projects/@current/persons", {
+    /* const userRes = await posthog.api.get("/api/projects/@current/persons", {
       host: global.posthogUrl,
       personalApiKey: global.posthogApiKey,
       projectApiKey: global.posthogProjectKey,
-    });
+    }); */
+    const userRes = await posthog.api.get("/api/projects/@current/persons");
     const userResponse = await userRes.json();
 
     const users: FormbricksUser[] = [];
