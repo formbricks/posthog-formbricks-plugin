@@ -21,7 +21,7 @@ export async function setupPlugin({ storage, config, global }) {
   }
 }
 
-export async function runEveryHour({ cache, storage, global, config }) {
+export async function runEveryMinute({ cache, storage, global, config }) {
   let lastSyncedAt = await storage.get("formbricks-lastSyncedAt", null);
   if (config.import === "Yes") {
     const response = await fetch(
@@ -55,9 +55,12 @@ export async function runEveryHour({ cache, storage, global, config }) {
 
     const users: FormbricksUser[] = [];
 
+    console.log("userResponse", userResponse);
+
     if (userResponse.results && userResponse.results.length > 0) {
       for (const loadedUser of userResponse["results"]) {
         for (const distinctId of loadedUser["distinct_ids"]) {
+          console.log("pushing user", distinctId);
           users.push({
             userId: distinctId,
             attributes: loadedUser["properties"],
@@ -65,6 +68,7 @@ export async function runEveryHour({ cache, storage, global, config }) {
         }
       }
     }
+    console.log("users", users);
     await fetch(
       `${config.formbricksHost}/api/v1/environments/${config.environmentId}/posthog/import`,
       {
