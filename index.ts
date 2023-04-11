@@ -53,7 +53,7 @@ export async function runEveryMinute({ cache, storage, global, config }) {
     }); */
     console.log("global", JSON.stringify(global));
     const userRes = await posthog.api.get("/api/projects/@current/persons", {
-      host: global.posthogUrl,
+      host: "https://posthog.formbricks.com",
     });
     const userResponse = await userRes.json();
 
